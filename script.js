@@ -1,5 +1,5 @@
 $(document).ready(function() {
-});
+
 
 $(".saveNotice").hide()
 // Pulls the localstorage at page load
@@ -97,3 +97,4 @@ $(".btn").on("click", function(event) {
   localData = localStorage.setItem("textAreaBox", JSON.stringify(textAreaBox))
 })
 
+});
