@@ -60,10 +60,10 @@ var taskList = [];
     // creates button for save and third col
     var columnThree = $("<div>");
     columnThree.addClass("col-sm-1");
-    columnThree.addClass("btn btn-primary savedBtn btn-outline-success rounded mt-1 mb-1 text-white text-center");
+    columnThree.addClass("btn btn-primary savedBtn btn-outline-success rounded mt-1 mb-1 text-white text-center far fa-save");
     columnThree.attr("value", [hour]);
     columnThree.attr("role", "button")
-    columnThree.text("Save Button")
+    columnThree.text(" Save")
   
     plannerRow.append(columnOne);
     plannerRow.append(columnTwo);
