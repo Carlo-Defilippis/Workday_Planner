@@ -19,7 +19,6 @@ var update = setInterval( function(){
 
 console.log(moment().format('h a'), parseInt(moment().format('h')) + 12)
 var taskList = [];
-// var obj = {"test","test2"}
 
 // For loop to create divs boxes and rows 
   for (var hour = 9; hour < 18; hour++) {
@@ -41,6 +40,7 @@ var taskList = [];
     else {
       columnOne.text(hour + ":00 AM")
     }
+
     // Creates second col
     var columnTwo = $("<textarea>");
     columnTwo.addClass("col-sm-9");
@@ -56,8 +56,8 @@ var taskList = [];
     columnTwo.attr("id", "text-area")
     columnTwo.attr("placeholder", "Enter your task here.")
     columnTwo.attr("input", "Enter your task here.")
+
     // creates button for save and third col
-    
     var columnThree = $("<div>");
     columnThree.addClass("col-sm-1");
     columnThree.addClass("btn btn-primary savedBtn btn-outline-success rounded mt-1 mb-1 text-white text-center");
@@ -91,18 +91,6 @@ for (var i = 0; i < textAreaBox.length; i++) {
 // Button that grabs texts in correct text field and saves it to the local storage
 $(".btn").on("click", function(event) {
   event.preventDefault();
-  var timer = 1;
-  var interval = setInterval(function() {
-    timer--
-    console.log("Timer went off")
-    $(".saveNotice").show()
-    if (timer === 0) {
-      $(".saveNotice").hide()
-      clearInterval(interval);
-    }
-  },1000);
-  setInterval();
-
   var saveButton = $(this).attr("value")
   var textData = $( "textarea[value="+ saveButton +"]" ).val()
   textAreaBox[saveButton - 9] = textData;
