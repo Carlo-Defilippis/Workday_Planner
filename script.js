@@ -44,9 +44,9 @@ var taskList = [];
     // Creates second col
     var columnTwo = $("<textarea>");
     columnTwo.addClass("col-sm-9");
-    if ((parseInt(moment().format('h')) + 12) === hour) {
+    if (parseInt(moment().format('H')) === hour) {
     columnTwo.addClass("border border-info rounded mt-1 mb-1 bg-success");
-  } else if ((parseInt(moment().format('h')) + 12) > hour) {
+  } else if (parseInt(moment().format('H')) > hour) {
     columnTwo.addClass("border border-info rounded mt-1 mb-1 bg-danger");
   } else {
     columnTwo.addClass("border border-info rounded mt-1 mb-1 bg-light");
