@@ -1,6 +1,9 @@
 $(document).ready(function() {
 });
 
+$(".saveNotice").hide()
+// Pulls the localstorage at page load
+var setBoxes = localStorage.getItem("textAreaBox")
 
 // Display today's date & time in jumbotron
 $("#date").text("Today is " + (moment().format('dddd, MMMM Do YYYY')));
@@ -11,29 +14,25 @@ var update = setInterval( function(){
 }, 1000)
   setInterval(update, 1000);
 
-
 //Today's Date:
-
   $("#currentDay").text(moment().format('MMMM Do YYYY'));
 
-
-// console.log(moment().format('h a'))
+console.log(moment().format('h a'), parseInt(moment().format('h')) + 12)
 var taskList = [];
 // var obj = {"test","test2"}
 
+// For loop to create divs boxes and rows 
   for (var hour = 9; hour < 18; hour++) {
     var plannerRow = $("<div>");
     plannerRow.attr("value", [hour]);
     plannerRow.addClass("row");
   
   //Create first column in each row
-  
     var columnOne = $("<div>");
     columnOne.addClass("col-sm-2");
     columnOne.addClass("btn d-flex justify-content-center border border-primary rounded mt-1 mb-1 btn-outline");
 
     // if else to post time.
-    
     if (hour === 12) {
       columnOne.text([hour] + ":00 PM")
     } else if (hour >= 13) {
@@ -42,12 +41,16 @@ var taskList = [];
     else {
       columnOne.text(hour + ":00 AM")
     }
-    
     // Creates second col
-    
     var columnTwo = $("<textarea>");
     columnTwo.addClass("col-sm-9");
-    columnTwo.addClass("border border-info rounded mt-1 mb-1");
+    if ((parseInt(moment().format('h')) + 12) === hour) {
+    columnTwo.addClass("border border-info rounded mt-1 mb-1 bg-success");
+  } else if ((parseInt(moment().format('h')) + 12) > hour) {
+    columnTwo.addClass("border border-info rounded mt-1 mb-1 bg-danger");
+  } else {
+    columnTwo.addClass("border border-info rounded mt-1 mb-1 bg-light");
+  }
     columnTwo.attr("value", [hour]);
     columnTwo.addClass("text-area");
     columnTwo.attr("id", "text-area")
@@ -66,42 +69,43 @@ var taskList = [];
     plannerRow.append(columnTwo);
     plannerRow.append(columnThree);
     $(".container").append(plannerRow);
-  
-    // plannerRow.text("Test Me");
-    // plannerRow.text("Test Me");
-    // plannerRow.text("Test Me");
+  };
+
+// Initialize the array to save the textarea data with number id's so we can check for string later
+var textAreaBox = [{9:[]},{10:[]},{11:[]},{12:[]},{13:[]},{14:[]},{15:[]},{16:[]},{17:[]},{18:[]}];
+
+// Checks if there is any save data, if so it changes the above array to the local storage saved array
+if (setBoxes !== null) {
+  var parsedSaved = JSON.parse(setBoxes)
+  textAreaBox = parsedSaved;
+};
+
+// For loop that check if there is a string in the array, if so it posts the correct saved text to the textarea assigned
+for (var i = 0; i < textAreaBox.length; i++) {
+  console.log(typeof textAreaBox[i])
+  if (typeof textAreaBox[i] == "string") {
+    $( "textarea[value="+ (i + 9) +"]" ).text(textAreaBox[i])
   }
+};
 
-//Create 9 rows
-
-var textAreaBox = [];
-
+// Button that grabs texts in correct text field and saves it to the local storage
 $(".btn").on("click", function(event) {
   event.preventDefault();
+  var timer = 1;
+  var interval = setInterval(function() {
+    timer--
+    console.log("Timer went off")
+    $(".saveNotice").show()
+    if (timer === 0) {
+      $(".saveNotice").hide()
+      clearInterval(interval);
+    }
+  },1000);
+  setInterval();
+
   var saveButton = $(this).attr("value")
   var textData = $( "textarea[value="+ saveButton +"]" ).val()
-
-
-  // getText()
-  console.log("This is the textarea data ",textData)
-//   var comment = $.trim($("#text-area").val(saveButton));
-//             if(comment != ""){
-//                 // Show alert dialog if value is not blank
-//                 alert(comment);
-//             }
-//   console.log(textData)
-//   console.log("Text area Value: ",textArea)
-//   console.log("Save Button Value: ",saveButton)
-//   console.log(typeof parseInt(textAreaBox), typeof parseInt(saveButton), typeof textArea)
-//   if (parseInt(saveButton) === parseInt(textAreaBox) && textArea.length !== 0) {
-//   textAreaBox = [];
-// }
+  textAreaBox[saveButton - 9] = textData;
+  localData = localStorage.setItem("textAreaBox", JSON.stringify(textAreaBox))
 })
 
-function getText(comp) {
-  var textInfo = $("#text-area").val()
-  // arr.map(function(o,i) { Object.assign(o,{id:i+1})})
-  // console.log(obj)
-  // console.log("This is the info pulled for the text box: ",textInfo)
-
-}
